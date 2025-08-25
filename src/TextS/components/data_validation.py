@@ -1,5 +1,5 @@
 import os
-from TextS.logging import logger
+from TextS.logging import Logger
 from TextS.entity import DataValidationConfig
 
 class DataValidation:
@@ -21,13 +21,13 @@ class DataValidation:
             with open(self.config.STATUS_FILE, 'w') as f:
                 if validation_status:
                     f.write("Validation status: True\nAll required files are present.")
-                    logger.info("All required files are present.")
+                    Logger.info("All required files are present.")
                 else:
                     f.write(f"Validation status: False\nMissing files: {', '.join(missing_files)}")
-                    logger.warning(f"Missing files: {', '.join(missing_files)}")
+                    Logger.warning(f"Missing files: {', '.join(missing_files)}")
 
             return validation_status
 
         except Exception as e:
-            logger.error(f"Validation failed: {e}")
+            Logger.error(f"Validation failed: {e}")
             raise e

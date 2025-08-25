@@ -1,5 +1,5 @@
 import os
-from TextS.logging import logger
+from TextS.logging import Logger
 from transformers import AutoTokenizer
 from datasets import load_dataset, load_from_disk
 from TextS.entity import DataTransformationConfig
@@ -27,11 +27,11 @@ class DataTransformation:
         }
         
     def convert(self):
-        logger.info(f"Loading dataset from {self.config.data_path}")
+        Logger.info(f"Loading dataset from {self.config.data_path}")
         dataset_samsum = load_from_disk(str(self.config.data_path))
-        logger.info("Tokenizing dataset...")
+        Logger.info("Tokenizing dataset...")
         dataset_samsum_pt = dataset_samsum.map(self.convert_examples_to_features, batched=True)
         save_path = self.config.root_dir / "samsum_dataset"
         os.makedirs(save_path, exist_ok=True)
-        logger.info(f"Saving processed dataset to {save_path}")
+        Logger.info(f"Saving processed dataset to {save_path}")
         dataset_samsum_pt.save_to_disk(str(save_path))

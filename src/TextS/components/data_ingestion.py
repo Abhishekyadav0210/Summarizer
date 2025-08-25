@@ -1,7 +1,7 @@
 import os
 import urllib.request as request
 import zipfile
-from TextS.logging import logger
+from TextS.logging import Logger
 from TextS.utils.common import get_size
 from pathlib import Path
 from TextS.entity import DataIngestionConfig
@@ -17,11 +17,11 @@ class DataIngestion:
                     url=self.config.source_URL,
                     filename=str(self.config.local_data_file)
                 )
-                logger.info(f"{filename} downloaded with info: {headers}")
+                Logger.info(f"{filename} downloaded with info: {headers}")
             else:
-                logger.info(f"File already exists of size: {get_size(self.config.local_data_file)}")
+                Logger.info(f"File already exists of size: {get_size(self.config.local_data_file)}")
         except Exception as e:
-            logger.error(f"Error downloading data: {e}")
+            Logger.error(f"Error downloading data: {e}")
             raise e
             
     def extract_zip_file(self):
@@ -31,10 +31,10 @@ class DataIngestion:
         try:
             unzip_path = self.config.unzip_dir
             os.makedirs(unzip_path, exist_ok=True)
-            logger.info(f"Extracting {self.config.local_data_file} to {unzip_path}")
+            Logger.info(f"Extracting {self.config.local_data_file} to {unzip_path}")
             with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
                 zip_ref.extractall(unzip_path)
-            logger.info("Extraction completed.")
+            Logger.info("Extraction completed.")
         except Exception as e:
-            logger.error(f"Error extracting zip file: {e}")
+            Logger.error(f"Error extracting zip file: {e}")
             raise e
